@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyToDoList</title>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./iconfont/iconfont.css">
+</head>
+
+<body>
+  <section class="todoapp">
+    <header class="header">
+      <h1>TODO</h1>
+      <input class="new-todo" type="text" placeholder="Plan to do something?" autofocus>
+    </header>
+    <section class="main">
+      <input type="checkbox" class="toggle-all" id="toggle-all">
+      <label for="toggle-all">
+        反转所有事项的完成情况
+      </label>
+      <ul class="list">
+        <li>
+          <div class="view">
+            <input type="checkbox" class="toggle">
+            <label>1</label>
+            <!-- <button class="destroy"></button> -->
+          </div>
+        </li>
+      </ul>
+      <footer class="footer">
+        <span class="todo-count">2 items left</span>
+        <ul class="filters">
+          <li><a href="#" class="selected">All</a></li>
+          <li><a href="#/active">Active</a></li>
+          <li><a href="#/completed">Completed</a></li>
+        </ul>
+        <button class="clear-completed">Clear completed</button>
+      </footer>
+    </section>
+  </section>
+
+  <!-- <script>
+    const styleSheets = document.styleSheets[1];
+    styleSheets.insertRule(`.box::after { background-color: green }`, styleSheets.cssRules.length)
+  </script> -->
+</body>
+
+</html>

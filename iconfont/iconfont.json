@@ -1,0 +1,23 @@
+{
+  "id": "4225906",
+  "name": "TODO",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "21093599",
+      "name": "圆圈：空",
+      "font_class": "yuanquankong",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "28656015",
+      "name": "圆圈勾选",
+      "font_class": "yuanquangouxuan",
+      "unicode": "e745",
+      "unicode_decimal": 59205
+    }
+  ]
+}
