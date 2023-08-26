@@ -160,13 +160,36 @@
   display: flex;
 }
 
-.main .footer .filters li {
+/* .main .footer .filters li {
   margin-right: 10px;
-}
+} */
 
-.main .footer .filters a {
+.main .footer .filters li a {
+  position: relative;
+  margin: 3px;
   padding: 3px 7px;
-  border: 1px solid rgba(175, 47, 47, 0.2);
+  border: 1px solid transparent;
   border-radius: 3px;
   color: inherit;
+  z-index: 1;
+}
+
+.main .footer .filters li a.selected {
+  border: 1px solid rgba(175, 47, 47, 0.2);
+}
+
+.filters li a:hover {
+  border: 1px solid rgba(175, 47, 47, 0.1);
+}
+
+.main .footer .clear-completed {
+  background: none;
+  border: none;
+  color: inherit;
+  z-index: 1;
+}
+
+.main .footer .clear-completed:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
