@@ -4,9 +4,17 @@ const clearObj = document.querySelector('.clear-completed')
 const toggleAllObj = document.querySelector('.toggle-all+label')
 const listObj = document.querySelector('.main .list')
 const todo_countObj = document.querySelector('.todo-count')
-let left = data.length
+// for (let i = 0; i < data.length; i++) {
+//   if (!data[i].completed) {
+//     left++
+//   }
+// }    
+//得到数组中未完成的事项数量
+let left = data.reduce((acc, cur) => {
+  return acc + (cur.completed === false ? 1 : 0)
+}, 0)
 
-console.log(toggleAllObj);
+// console.log(left);
 
 // 渲染函数，将本地数据渲染到页面上
 function render(choice) {
@@ -15,7 +23,7 @@ function render(choice) {
     return `
         <li data-id="${index}">
           <div class="view">
-            <input type="checkbox" class="toggle">
+            <input type="checkbox" class="toggle ${item.completed ? 'completed' : ''}" ${item.completed ? 'checked' : ''}>
             <label>${item.title}</label>
             <button class="destroy">X</button>
           </div>
@@ -76,7 +84,7 @@ listObj.addEventListener('click', function (e) {
   }
 })
 
-
+//改变事项状态
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'INPUT') {
     //添加类名
@@ -97,4 +105,21 @@ listObj.addEventListener('click', function (e) {
     //这里不能使用渲染函数render()
     //否则会导致类名completed添加后又被移除，不能实现css样式
   }
+})
+
+//清除所有已完成事项
+clearObj.addEventListener('click', function () {
+  //遍历数组
+  // console.log(data);
+  // for (let i = 0; i < data.length; i++) {
+  //   if (data[i].completed === true) {
+  //     left--
+  //     //删除数组对应数据
+  //     data.splice(i, 1)
+  //   }
+  // }
+  // //更新本地存储
+  // localStorage.setItem('todoData', JSON.stringify(data))
+  // //渲染页面
+  // render()
 })

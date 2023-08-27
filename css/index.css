@@ -28,16 +28,6 @@
   color: #e6e6e6;
 }
 
-/* .header::before {
-  content: '❯';
-  position: absolute;
-  left: 24px;
-  top: 23px;
-  font-size: 22px;
-  color: #e6e6e6;
-  transform: rotate(90deg);
-} */
-
 .main {
   position: relative;
   z-index: 2;
