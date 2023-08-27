@@ -5,6 +5,7 @@ const toggleAllObj = document.querySelector('.toggle-all+label')
 const toggleBtn = toggleAllObj.previousElementSibling
 const listObj = document.querySelector('.main .list')
 const todo_countObj = document.querySelector('.todo-count')
+const mainObj = document.querySelector('.main')
 // for (let i = 0; i < data.length; i++) {
 //   if (!data[i].completed) {
 //     left++
@@ -36,6 +37,7 @@ function render(choice) {
   clearObj.style.opacity = (left === data.length ? 0 : 1)
   toggleAllObj.style.display = (data.length > 0 ? 'block' : 'none')
   toggleAllObj.previousElementSibling.checked = (left === 0)
+  mainObj.style.display = (data.length > 0 ? 'block' : 'none')
 }
 render(1)
 
