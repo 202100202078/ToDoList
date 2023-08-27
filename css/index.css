@@ -53,6 +53,11 @@
   right: 100%;
 }
 
+.toggle-all:checked+label:before {
+  transition: color 0.4s;
+  color: #737373;
+}
+
 .toggle-all+label {
   position: relative;
   width: 34px;
@@ -61,7 +66,6 @@
   position: absolute;
   left: 0;
   top: -66px;
-  /* background-color: pink; */
 }
 
 .toggle-all+label::before {

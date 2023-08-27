@@ -1,9 +1,12 @@
 //页面刷新就读取本地数据
 const data = JSON.parse(localStorage.getItem('todoData')) || []
 const clearObj = document.querySelector('.clear-completed')
+const toggleAllObj = document.querySelector('.toggle-all+label')
+const listObj = document.querySelector('.main .list')
+const todo_countObj = document.querySelector('.todo-count')
 let left = data.length
 
-console.log(clearObj);
+console.log(toggleAllObj);
 
 // 渲染函数，将本地数据渲染到页面上
 function render(choice) {
@@ -19,9 +22,10 @@ function render(choice) {
         </li>
     `
   })
-  document.querySelector('.main .list').innerHTML = tempData.join('')
-  document.querySelector('.todo-count').innerHTML = `${left} items left`
+  listObj.innerHTML = tempData.join('')
+  todo_countObj.innerHTML = `${left} items left`
   clearObj.style.opacity = (left === data.length ? 0 : 1)
+  toggleAllObj.style.display = (left > 0 ? 'block' : 'none')
 }
 render(1)
 
@@ -58,7 +62,6 @@ newToDoObj.addEventListener('keyup', (e) => {
   }
 })
 
-const listObj = document.querySelector('.main .list')
 //实现删除事项功能
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'BUTTON') {
