@@ -1,5 +1,6 @@
 //页面刷新就读取本地数据
 const data = JSON.parse(localStorage.getItem('todoData')) || []
+let left = 0
 
 // 渲染函数，将本地数据渲染到页面上
 function render(choice) {
@@ -16,6 +17,7 @@ function render(choice) {
     `
   })
   document.querySelector('.main .list').innerHTML = tempData.join('')
+  document.querySelector('.todo-count').innerHTML = `${left} items left`
 }
 render(1)
 
@@ -30,6 +32,8 @@ function inputItem() {
       title: newToDoObj.value,
       completed: false
     }
+    //未完成事项数量
+    left++
     //加入数组
     data.push(obj)
     //本地存储
@@ -54,6 +58,7 @@ const listObj = document.querySelector('.main .list')
 //实现删除事项功能
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'BUTTON') {
+    left--
     const cur = e.target.parentNode.parentNode.dataset.id
     //删除数组对应数据
     data.splice(cur, 1)
@@ -61,5 +66,24 @@ listObj.addEventListener('click', function (e) {
     localStorage.setItem('todoData', JSON.stringify(data))
     //渲染页面
     render()
+  }
+})
+
+listObj.addEventListener('click', function (e) {
+  if (e.target.tagName === 'INPUT') {
+    //添加类名
+    e.target.classList.toggle('completed')
+    const cur = e.target.parentNode.parentNode.dataset.id
+    //更新数组数据
+    if (data[cur].completed === true) {
+      data[cur].completed = false
+      left++
+    } else {
+      data[cur].completed = true
+      left--
+    }
+    document.querySelector('.todo-count').innerHTML = `${left} items left`
+    //更新本地存储
+    localStorage.setItem('todoData', JSON.stringify(data))
   }
 })

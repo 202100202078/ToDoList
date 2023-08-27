@@ -98,6 +98,7 @@
   padding: 15px 15px 15px 60px;
   line-height: 1.2;
   word-break: break-all;
+  transition: color 0.4s;
 }
 
 .list li .toggle+label {
@@ -105,13 +106,19 @@
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 7%;
+  transition: all 0.4s;
 }
 
-.todo-list li .toggle:checked+label {
+.list li .toggle:checked+label {
   background-image: url(../image/icon_gk8jm4im6sp/xuanzhong.png);
   background-repeat: no-repeat;
   background-position: 3px center;
   background-size: 10%;
+}
+
+.list input.completed+label {
+  color: #d9d9d9;
+  text-decoration: line-through;
 }
 
 .list li .destroy {
