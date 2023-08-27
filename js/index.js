@@ -73,8 +73,10 @@ newToDoObj.addEventListener('keyup', (e) => {
 //实现删除事项功能
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'BUTTON') {
-    left--
+
     const cur = e.target.parentNode.parentNode.dataset.id
+    //只有当前事项是未完成事项删除才会减少left值
+    if (!data[cur].completed) left--
     //删除数组对应数据
     data.splice(cur, 1)
     //更新本地存储
@@ -109,17 +111,13 @@ listObj.addEventListener('click', function (e) {
 
 //清除所有已完成事项
 clearObj.addEventListener('click', function () {
-  //遍历数组
-  // console.log(data);
-  // for (let i = 0; i < data.length; i++) {
-  //   if (data[i].completed === true) {
-  //     left--
-  //     //删除数组对应数据
-  //     data.splice(i, 1)
-  //   }
-  // }
+  for (let i = data.length - 1; i >= 0; i--) {
+    if (data[i].completed) {
+      data.splice(i, 1)
+    }
+  }
   // //更新本地存储
-  // localStorage.setItem('todoData', JSON.stringify(data))
+  localStorage.setItem('todoData', JSON.stringify(data))
   // //渲染页面
-  // render()
+  render()
 })
