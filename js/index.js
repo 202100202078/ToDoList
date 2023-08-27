@@ -2,6 +2,7 @@
 const data = JSON.parse(localStorage.getItem('todoData')) || []
 const clearObj = document.querySelector('.clear-completed')
 const toggleAllObj = document.querySelector('.toggle-all+label')
+const toggleBtn = toggleAllObj.previousElementSibling
 const listObj = document.querySelector('.main .list')
 const todo_countObj = document.querySelector('.todo-count')
 // for (let i = 0; i < data.length; i++) {
@@ -126,3 +127,24 @@ clearObj.addEventListener('click', function () {
   render()
 })
 
+toggleBtn.addEventListener('click', function () {
+  console.log(this.checked);
+  if (this.checked) {
+    //将所有事项变为已完成
+    data.forEach(element => {
+      element.completed = true
+    });
+    //更新left值
+    left = 0
+  } else {
+    //将所有事项变为未完成
+    data.forEach(element => {
+      element.completed = false
+    });
+    left = data.length
+  }
+  //更新本地存储
+  localStorage.setItem('todoData', JSON.stringify(data))
+  //渲染页面
+  render()
+})
