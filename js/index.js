@@ -33,7 +33,8 @@ function render(choice) {
   listObj.innerHTML = tempData.join('')
   todo_countObj.innerHTML = `${left} items left`
   clearObj.style.opacity = (left === data.length ? 0 : 1)
-  toggleAllObj.style.display = (left > 0 ? 'block' : 'none')
+  toggleAllObj.style.display = (data.length > 0 ? 'block' : 'none')
+  toggleAllObj.previousElementSibling.checked = (left === 0)
 }
 render(1)
 
@@ -86,7 +87,7 @@ listObj.addEventListener('click', function (e) {
   }
 })
 
-//改变事项状态
+//点击改变事项状态
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'INPUT') {
     //添加类名
@@ -100,6 +101,9 @@ listObj.addEventListener('click', function (e) {
       data[cur].completed = true
       left--
     }
+    //小箭头的点亮随着完成事项的数量变化
+    toggleAllObj.previousElementSibling.checked = (left === 0)
+    //clearAll按钮的显示隐藏
     clearObj.style.opacity = left === data.length ? 0 : 1
     document.querySelector('.todo-count').innerHTML = `${left} items left`
     //更新本地存储
@@ -121,3 +125,4 @@ clearObj.addEventListener('click', function () {
   // //渲染页面
   render()
 })
+

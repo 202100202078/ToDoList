@@ -166,10 +166,6 @@
   display: flex;
 }
 
-/* .main .footer .filters li {
-  margin-right: 10px;
-} */
-
 .main .footer .filters li a {
   position: relative;
   margin: 3px;
