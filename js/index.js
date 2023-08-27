@@ -1,6 +1,9 @@
 //页面刷新就读取本地数据
 const data = JSON.parse(localStorage.getItem('todoData')) || []
-let left = 0
+const clearObj = document.querySelector('.clear-completed')
+let left = data.length
+
+console.log(clearObj);
 
 // 渲染函数，将本地数据渲染到页面上
 function render(choice) {
@@ -18,6 +21,7 @@ function render(choice) {
   })
   document.querySelector('.main .list').innerHTML = tempData.join('')
   document.querySelector('.todo-count').innerHTML = `${left} items left`
+  clearObj.style.opacity = (left === data.length ? 0 : 1)
 }
 render(1)
 
@@ -69,6 +73,7 @@ listObj.addEventListener('click', function (e) {
   }
 })
 
+
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'INPUT') {
     //添加类名
@@ -82,8 +87,11 @@ listObj.addEventListener('click', function (e) {
       data[cur].completed = true
       left--
     }
+    clearObj.style.opacity = left === data.length ? 0 : 1
     document.querySelector('.todo-count').innerHTML = `${left} items left`
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
+    //这里不能使用渲染函数render()
+    //否则会导致类名completed添加后又被移除，不能实现css样式
   }
 })

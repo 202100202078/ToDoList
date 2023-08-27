@@ -143,6 +143,11 @@
   display: block;
 }
 
+.list li .destroy:hover {
+  transition: all 0.4s;
+  color: brown;
+}
+
 .main .footer {
   display: flex;
   justify-content: space-between;
