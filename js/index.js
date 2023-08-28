@@ -6,6 +6,7 @@ const toggleBtn = toggleAllObj.previousElementSibling
 const listObj = document.querySelector('.main .list')
 const todo_countObj = document.querySelector('.todo-count')
 const mainObj = document.querySelector('.main')
+const newToDoObj = document.querySelector('.new-todo')
 // for (let i = 0; i < data.length; i++) {
 //   if (!data[i].completed) {
 //     left++
@@ -32,16 +33,21 @@ function render(choice) {
         </li>
     `
   })
+  //将事项进行显示
   listObj.innerHTML = tempData.join('')
+  //未完成事项数量的显示
   todo_countObj.innerHTML = `${left} items left`
+  //存在完成事项时显示清除按钮
   clearObj.style.opacity = (left === data.length ? 0 : 1)
+  //存在事项时显示箭头
   toggleAllObj.style.display = (data.length > 0 ? 'block' : 'none')
+  //当所有事项均完成时将箭头颜色加深
   toggleAllObj.previousElementSibling.checked = (left === 0)
+  //存在事项时才显示下边框
   mainObj.style.display = (data.length > 0 ? 'block' : 'none')
 }
 render(1)
 
-const newToDoObj = document.querySelector('.new-todo')
 
 function inputItem() {
   //用户输入非空
@@ -77,7 +83,6 @@ newToDoObj.addEventListener('keyup', (e) => {
 //实现删除事项功能
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'BUTTON') {
-
     const cur = e.target.parentNode.parentNode.dataset.id
     //只有当前事项是未完成事项删除才会减少left值
     if (!data[cur].completed) left--
@@ -107,8 +112,9 @@ listObj.addEventListener('click', function (e) {
     //小箭头的点亮随着完成事项的数量变化
     toggleAllObj.previousElementSibling.checked = (left === 0)
     //clearAll按钮的显示隐藏
-    clearObj.style.opacity = left === data.length ? 0 : 1
-    document.querySelector('.todo-count').innerHTML = `${left} items left`
+    clearObj.style.opacity = (left === data.length ? 0 : 1)
+    //left数量的更新
+    todo_countObj.innerHTML = `${left} items left`
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
     //这里不能使用渲染函数render()
@@ -129,20 +135,16 @@ clearObj.addEventListener('click', function () {
   render()
 })
 
+//箭头功能的实现
 toggleBtn.addEventListener('click', function () {
-  console.log(this.checked);
   if (this.checked) {
     //将所有事项变为已完成
-    data.forEach(element => {
-      element.completed = true
-    });
+    data.forEach(element => element.completed = true);
     //更新left值
     left = 0
   } else {
     //将所有事项变为未完成
-    data.forEach(element => {
-      element.completed = false
-    });
+    data.forEach(element => element.completed = false);
     left = data.length
   }
   //更新本地存储
