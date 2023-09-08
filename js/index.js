@@ -7,6 +7,7 @@ const listObj = document.querySelector('.main .list')
 const todo_countObj = document.querySelector('.todo-count')
 const mainObj = document.querySelector('.main')
 const newToDoObj = document.querySelector('.new-todo')
+const filtersObj = document.querySelector('.filters')
 // for (let i = 0; i < data.length; i++) {
 //   if (!data[i].completed) {
 //     left++
@@ -20,9 +21,18 @@ let left = data.reduce((acc, cur) => {
 // console.log(left);
 
 // 渲染函数，将本地数据渲染到页面上
-function render(choice) {
+function render(choice = 1) {
   //choice为1则将所有数据都渲染，为2则只渲染未完成的数据，3则只渲染已完成的数据
-  const tempData = data.map(function (item, index) {
+  //默认渲染所有数据
+  let temp = data
+  if (choice === 2) {
+    //筛选出未完成的数据
+    temp = data.filter(value => value.completed === false)
+  } else if (choice === 3) {
+    //筛选出完成的数据
+    temp = data.filter(value => value.completed === true)
+  }
+  const tempData = temp.map(function (item, index) {
     return `
         <li data-id="${index}">
           <div class="view">
@@ -45,8 +55,23 @@ function render(choice) {
   toggleAllObj.previousElementSibling.checked = (left === 0)
   //存在事项时才显示下边框
   mainObj.style.display = (data.length > 0 ? 'block' : 'none')
+  //根据hash值改变当前显示的数据类型
+  filtersObj.querySelector('.selected').classList.remove('selected')
+  document.querySelector(`.${location.hash.substring(1) || 'All'}`).classList.add('selected')
 }
-render(1)
+
+//刷新时根据当前的URL的hash值进行判断
+const curHash = location.hash
+// console.log(curHash);
+if (curHash === '#Active') {
+  render(2)
+} else if (curHash === '#Completed') {
+  render(3)
+} else {
+  //注意这里不能写else if(curHash === '#All')否则无法判断当前没有哈希值的情况
+  render(1)
+}
+// render(1)
 
 
 function inputItem() {
@@ -90,7 +115,7 @@ listObj.addEventListener('click', function (e) {
     data.splice(cur, 1)
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
-    //渲染页面
+    //渲染完成事项
     render()
   }
 })
@@ -132,7 +157,7 @@ clearObj.addEventListener('click', function () {
   // //更新本地存储
   localStorage.setItem('todoData', JSON.stringify(data))
   // //渲染页面
-  render()
+  render(3)
 })
 
 //箭头功能的实现
@@ -151,4 +176,26 @@ toggleBtn.addEventListener('click', function () {
   localStorage.setItem('todoData', JSON.stringify(data))
   //渲染页面
   render()
+})
+
+//事项显示类型的转换
+filtersObj.addEventListener('click', (e) => {
+  if (e.target.tagName === 'A') {
+    //进行小方框的移动
+    filtersObj.querySelector('.selected').classList.remove('selected')
+    e.target.classList.add('selected')
+  }
+})
+
+//监听url的hash值改变的事件
+window.addEventListener('hashchange', () => {
+  //根据URL的hash值进行判断
+  const curHash = location.hash
+  if (curHash === '#Active') {
+    render(2)
+  } else if (curHash === '#Completed') {
+    render(3)
+  } else {
+    render(1)
+  }
 })
