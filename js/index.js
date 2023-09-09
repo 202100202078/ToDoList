@@ -117,8 +117,15 @@ listObj.addEventListener('click', function (e) {
     data.splice(cur, 1)
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
-    //渲染完成事项
-    render()
+    //渲染页面
+    const curHash = location.hash
+    if (curHash === '#Active') {
+      render(2)
+    } else if (curHash === '#Completed') {
+      render(3)
+    } else {
+      render(1)
+    }
   }
 })
 
@@ -163,8 +170,15 @@ clearObj.addEventListener('click', function () {
   }
   // //更新本地存储
   localStorage.setItem('todoData', JSON.stringify(data))
-  // //渲染页面
-  render()
+  //渲染页面
+  const curHash = location.hash
+  if (curHash === '#Active') {
+    render(2)
+  } else if (curHash === '#Completed') {
+    render(3)
+  } else {
+    render(1)
+  }
 })
 
 //箭头功能的实现
