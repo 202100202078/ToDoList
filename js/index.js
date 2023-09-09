@@ -14,9 +14,7 @@ const filtersObj = document.querySelector('.filters')
 //   }
 // }    
 //得到数组中未完成的事项数量
-let left = data.reduce((acc, cur) => {
-  return acc + (cur.completed === false ? 1 : 0)
-}, 0)
+let left = 0
 
 // console.log(left);
 
@@ -25,6 +23,10 @@ function render(choice = 1) {
   //choice为1则将所有数据都渲染，为2则只渲染未完成的数据，3则只渲染已完成的数据
   //默认渲染所有数据
   let temp = data
+  //默认left数量计算
+  left = data.reduce((acc, cur) => {
+    return acc + (cur.completed === false ? 1 : 0)
+  }, 0)
   if (choice === 2) {
     //筛选出未完成的数据
     temp = data.filter(value => value.completed === false)
@@ -48,7 +50,7 @@ function render(choice = 1) {
   //未完成事项数量的显示
   todo_countObj.innerHTML = `${left} items left`
   //存在完成事项时显示清除按钮
-  clearObj.style.opacity = (left === data.length ? 0 : 1)
+  clearObj.style.display = (left === data.length ? 'none' : 'block')
   //存在事项时显示箭头
   toggleAllObj.style.display = (data.length > 0 ? 'block' : 'none')
   //当所有事项均完成时将箭头颜色加深
@@ -123,6 +125,7 @@ listObj.addEventListener('click', function (e) {
 //点击改变事项状态
 listObj.addEventListener('click', function (e) {
   if (e.target.tagName === 'INPUT') {
+    // if (location.hash === '#All') {
     //添加类名
     e.target.classList.toggle('completed')
     const cur = e.target.parentNode.parentNode.dataset.id
@@ -136,14 +139,18 @@ listObj.addEventListener('click', function (e) {
     }
     //小箭头的点亮随着完成事项的数量变化
     toggleAllObj.previousElementSibling.checked = (left === 0)
-    //clearAll按钮的显示隐藏
-    clearObj.style.opacity = (left === data.length ? 0 : 1)
+    //clearCompleted按钮的显示隐藏
+    clearObj.style.display = (left === data.length ? 'none' : 'block')
     //left数量的更新
     todo_countObj.innerHTML = `${left} items left`
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
     //这里不能使用渲染函数render()
     //否则会导致类名completed添加后又被移除，不能实现css样式
+    if (location.hash === '#Active' || location.hash === '#Completed') {
+      //如果当前筛选类型是active或completed的话，则事项状态改变直接remove该元素
+      e.target.parentNode.parentNode.remove()
+    }
   }
 })
 
@@ -157,11 +164,12 @@ clearObj.addEventListener('click', function () {
   // //更新本地存储
   localStorage.setItem('todoData', JSON.stringify(data))
   // //渲染页面
-  render(3)
+  render()
 })
 
 //箭头功能的实现
 toggleBtn.addEventListener('click', function () {
+  console.log(this.checked);
   if (this.checked) {
     //将所有事项变为已完成
     data.forEach(element => element.completed = true);
@@ -175,7 +183,14 @@ toggleBtn.addEventListener('click', function () {
   //更新本地存储
   localStorage.setItem('todoData', JSON.stringify(data))
   //渲染页面
-  render()
+  const curHash = location.hash
+  if (curHash === '#Active') {
+    render(2)
+  } else if (curHash === '#Completed') {
+    render(3)
+  } else {
+    render(1)
+  }
 })
 
 //事项显示类型的转换
