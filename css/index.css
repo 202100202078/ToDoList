@@ -15,23 +15,6 @@
   color: rgba(175, 47, 47, 0.15);
 }
 
-.todoapp input::-webkit-input-placeholder {
-  font-style: italic;
-  font-weight: 300;
-  color: #e6e6e6;
-}
-
-.todoapp input::-moz-placeholder {
-  font-style: italic;
-  font-weight: 300;
-  color: #e6e6e6;
-}
-
-.todoapp input::input-placeholder {
-  font-style: italic;
-  font-weight: 300;
-  color: #e6e6e6;
-}
 
 .new-todo {
   padding: 16px 16px 16px 60px;
@@ -231,4 +214,12 @@
 .main .footer .clear-completed:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.info {
+  margin: 65px auto;
+  text-align: center;
+  color: #bfbfbf;
+  font-size: 10px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
