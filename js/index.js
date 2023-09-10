@@ -8,15 +8,9 @@ const todo_countObj = document.querySelector('.todo-count')
 const mainObj = document.querySelector('.main')
 const newToDoObj = document.querySelector('.new-todo')
 const filtersObj = document.querySelector('.filters')
-// for (let i = 0; i < data.length; i++) {
-//   if (!data[i].completed) {
-//     left++
-//   }
-// }    
+
 //得到数组中未完成的事项数量
 let left = 0
-
-// console.log(left);
 
 // 渲染函数，将本地数据渲染到页面上
 function render(choice = 1) {
@@ -62,18 +56,21 @@ function render(choice = 1) {
   document.querySelector(`.${location.hash.substring(1) || 'All'}`).classList.add('selected')
 }
 
-//刷新时根据当前的URL的hash值进行判断
-const curHash = location.hash
-// console.log(curHash);
-if (curHash === '#Active') {
-  render(2)
-} else if (curHash === '#Completed') {
-  render(3)
-} else {
-  //注意这里不能写else if(curHash === '#All')否则无法判断当前没有哈希值的情况
-  render(1)
+function callRender() {
+  //刷新时根据当前的URL的hash值进行判断
+  const curHash = location.hash
+  // console.log(curHash);
+  if (curHash === '#Active') {
+    render(2)
+  } else if (curHash === '#Completed') {
+    render(3)
+  } else {
+    //注意这里不能写else if(curHash === '#All')否则无法判断当前没有哈希值的情况
+    render(1)
+  }
 }
-// render(1)
+
+callRender()
 
 
 function inputItem() {
@@ -92,7 +89,7 @@ function inputItem() {
     //本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
     //重新渲染
-    render(1)
+    callRender()
     //清除输入框内容
     newToDoObj.value = ''
   }
@@ -118,23 +115,17 @@ listObj.addEventListener('click', function (e) {
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
     //渲染页面
-    const curHash = location.hash
-    if (curHash === '#Active') {
-      render(2)
-    } else if (curHash === '#Completed') {
-      render(3)
-    } else {
-      render(1)
-    }
+    callRender()
   }
 })
 
 //点击改变事项状态
 listObj.addEventListener('click', function (e) {
-  if (e.target.tagName === 'INPUT') {
+  if (e.target.type === 'checkbox') {
+    // if (e.target.tagName === 'INPUT') {
     // if (location.hash === '#All') {
     //添加类名
-    e.target.classList.toggle('completed')
+    e.target.parentNode.parentNode.classList.toggle('completed')
     const cur = e.target.parentNode.parentNode.dataset.id
     //更新数组数据
     if (data[cur].completed === true) {
@@ -172,18 +163,12 @@ clearObj.addEventListener('click', function () {
   localStorage.setItem('todoData', JSON.stringify(data))
   //渲染页面
   const curHash = location.hash
-  if (curHash === '#Active') {
-    render(2)
-  } else if (curHash === '#Completed') {
-    render(3)
-  } else {
-    render(1)
-  }
+  callRender()
 })
 
 //箭头功能的实现
 toggleBtn.addEventListener('click', function () {
-  console.log(this.checked);
+  // console.log(this.checked);
   if (this.checked) {
     //将所有事项变为已完成
     data.forEach(element => element.completed = true);
@@ -197,14 +182,7 @@ toggleBtn.addEventListener('click', function () {
   //更新本地存储
   localStorage.setItem('todoData', JSON.stringify(data))
   //渲染页面
-  const curHash = location.hash
-  if (curHash === '#Active') {
-    render(2)
-  } else if (curHash === '#Completed') {
-    render(3)
-  } else {
-    render(1)
-  }
+  callRender()
 })
 
 //事项显示类型的转换
@@ -218,13 +196,50 @@ filtersObj.addEventListener('click', (e) => {
 
 //监听url的hash值改变的事件
 window.addEventListener('hashchange', () => {
-  //根据URL的hash值进行判断
-  const curHash = location.hash
-  if (curHash === '#Active') {
-    render(2)
-  } else if (curHash === '#Completed') {
-    render(3)
-  } else {
-    render(1)
+  callRender()
+})
+
+// 双击触发修改内容(事件委托)
+listObj.addEventListener('dblclick', (e) => {
+  if (e.target.tagName === 'LABEL') {
+    //给li添加editing类名
+    e.target.parentNode.parentNode.classList.add('editing')
+    //添加输入框
+    // <input type="text" class="edit">
+    const inputObj = document.createElement('input')
+    inputObj.type = 'text'
+    inputObj.classList.add('edit')
+    inputObj.value = e.target.innerHTML
+    e.target.parentNode.parentNode.appendChild(inputObj)
+    //焦点改变为input框
+    inputObj.focus()
+  }
+})
+
+//页面点击事件
+document.addEventListener('click', (e) => {
+  if (e.target.className !== 'edit') reinput()
+})
+
+function reinput() {
+  const editObj = document.querySelector('.todoapp > .main > ul > li.editing > input')
+  //只有当前修改文本框出现时才执行
+  if (editObj) {
+    editObj.parentNode.classList.remove('editing')
+    editObj.remove()
+  }
+}
+
+listObj.addEventListener('change', (e) => {
+  if (e.target.classList.contains('edit')) {
+    //只有修改文本框内容(事项)时才执行
+    const content = e.target.value
+    const curId = e.target.parentNode.dataset.id
+    //修改数组内容
+    data[curId].title = content
+    //更新本地存储
+    localStorage.setItem('todoData', JSON.stringify(data))
+    //渲染页面
+    callRender()
   }
 })

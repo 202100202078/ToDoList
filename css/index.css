@@ -15,6 +15,24 @@
   color: rgba(175, 47, 47, 0.15);
 }
 
+.todoapp input::-webkit-input-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #e6e6e6;
+}
+
+.todoapp input::-moz-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #e6e6e6;
+}
+
+.todoapp input::input-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #e6e6e6;
+}
+
 .new-todo {
   padding: 16px 16px 16px 60px;
   background: rgba(0, 0, 0, 0.003);
@@ -109,7 +127,7 @@
   background-size: 10%;
 }
 
-.list input.completed+label {
+.list li.completed label {
   color: #d9d9d9;
   text-decoration: line-through;
 }
@@ -139,6 +157,26 @@
 .list li .destroy:hover {
   transition: all 0.4s;
   color: brown;
+}
+
+.list li.editing {
+  border-bottom: none;
+  padding: 0;
+}
+
+.list li.editing .edit {
+  display: block;
+  width: 506px;
+  padding: 12px 16px;
+  margin: 0 0 0 43px;
+  font-size: 24px;
+  line-height: 1.2;
+  box-shadow: inset 0 0px 10px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+}
+
+.list li.editing .view {
+  display: none;
 }
 
 .main .footer {
