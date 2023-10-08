@@ -1,3 +1,4 @@
+直接从index.html文件进入即可
 # 项目完成过程中遇到的问题与解决
 > 首先是label与checkbox之间出现的问题，利用label与checkbox之间进行绑定可以增大用户点击范围，提高用户体验，但是注意绑定事件时不要将事件绑定在label上，而是直接绑定在checkbox上即可，否则可能出现checkbox的状态改变失败的情况
 >
