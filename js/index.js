@@ -30,7 +30,7 @@ function render(choice = 1) {
   }
   const tempData = temp.map(function (item, index) {
     return `
-        <li data-id="${index}">
+        <li data-id="${item.id}" class="${item.completed ? 'completed' : ''}">
           <div class="view">
             <input type="checkbox" class="toggle ${item.completed ? 'completed' : ''}" ${item.completed ? 'checked' : ''}>
             <label>${item.title}</label>
@@ -125,7 +125,7 @@ listObj.addEventListener('click', function (e) {
     // if (e.target.tagName === 'INPUT') {
     // if (location.hash === '#All') {
     //添加类名
-    e.target.parentNode.parentNode.classList.toggle('completed')
+    // e.target.parentNode.parentNode.classList.toggle('completed')
     const cur = e.target.parentNode.parentNode.dataset.id
     //更新数组数据
     if (data[cur].completed === true) {
@@ -144,6 +144,7 @@ listObj.addEventListener('click', function (e) {
     //更新本地存储
     localStorage.setItem('todoData', JSON.stringify(data))
     //这里不能使用渲染函数render()
+    callRender()
     //否则会导致类名completed添加后又被移除，不能实现css样式
     if (location.hash === '#Active' || location.hash === '#Completed') {
       //如果当前筛选类型是active或completed的话，则事项状态改变直接remove该元素
